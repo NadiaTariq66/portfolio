@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nadia Tariq | Full Stack Developer</title>
+    <script>
+      // Fix for "Cannot set property fetch of #<Window> which has only a getter"
+      // This often happens when libraries try to polyfill fetch in environments where it's read-only.
+      (function() {
+        try {
+          const originalFetch = window.fetch;
+          if (!originalFetch) return;
+          
+          // Check if we can even define it. If it's already non-configurable, this will fail.
+          const descriptor = Object.getOwnPropertyDescriptor(window, 'fetch');
+          if (descriptor && !descriptor.configurable) {
+            console.log('Fetch is already non-configurable, skipping guard.');
+            return;
+          }
+
+          Object.defineProperty(window, 'fetch', {
+            configurable: true,
+            enumerable: true,
+            get: () => originalFetch,
+            set: (v) => {
+              // Silently ignore assignments to fetch
+              if (v !== originalFetch) {
+                console.warn('Attempted to override window.fetch ignored.');
+              }
+            }
+          });
+        } catch (e) {
+          // If we fail, just log it. We don't want to crash the app.
+          console.debug('Fetch guard could not be applied:', e);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
