@@ -277,8 +277,9 @@ export default function App() {
                   </motion.a>
                   
                   <motion.a 
-                    href="/resume.pdf" 
-                    download
+                    href="https://drive.google.com/file/d/1LC1U7rAsxGUox54sAYvnJCtkZhPdV2n9/view?usp=drive_link" 
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="px-8 py-4 bg-zinc-900 border border-white/5 text-zinc-400 hover:text-white hover:border-white/20 transition-all rounded-full flex items-center gap-3 text-sm font-bold"
                   >
                     Download CV <Download size={16} />
