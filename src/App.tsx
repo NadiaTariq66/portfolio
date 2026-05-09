@@ -19,7 +19,12 @@ import {
   ChevronRight,
   ArrowRight,
   Menu,
-  X
+  X,
+  MessageCircle,
+  CheckCircle2,
+  Clock,
+  Calendar,
+  Check
 } from "lucide-react";
 import { useState, useEffect, ReactNode } from "react";
 
@@ -29,7 +34,6 @@ const NAV_LINKS = [
   { name: "Experience", href: "#experience" },
   { name: "Projects", href: "#projects" },
   { name: "Skills", href: "#skills" },
-  { name: "Contact", href: "#contact" },
 ];
 
 const containerVariants = {
@@ -137,14 +141,14 @@ export default function App() {
       <div 
         className="fixed inset-0 z-0 pointer-events-none opacity-40 transition-opacity duration-300"
         style={{
-          background: `radial-gradient(600px at ${mousePosition.x}px ${mousePosition.y}px, rgba(16, 185, 129, 0.1), transparent 80%)`
+          background: `radial-gradient(600px at ${mousePosition.x}px ${mousePosition.y}px, rgba(209, 38, 58, 0.1), transparent 80%)`
         }}
       />
       
       {/* Background Texture & Aura */}
       <div className="fixed inset-0 pointer-events-none opacity-30 z-0">
-        <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-emerald-900/10 blur-[150px] rounded-full animate-pulse" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[70%] h-[70%] bg-emerald-900/10 blur-[150px] rounded-full animate-pulse delay-1000" />
+        <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-primary/5 blur-[150px] rounded-full animate-pulse" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[70%] h-[70%] bg-primary/5 blur-[150px] rounded-full animate-pulse delay-1000" />
       </div>
       
       {/* Animated Grain Overlay */}
@@ -162,19 +166,12 @@ export default function App() {
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="text-xl font-bold tracking-tighter flex items-center gap-2 group cursor-pointer"
+            className="text-xl font-display font-black italic tracking-tighter flex items-center gap-2 group cursor-pointer"
           >
-            <div className="relative w-8 h-8 flex items-center justify-center overflow-hidden rounded-lg bg-white">
-              <motion.span 
-                initial={{ y: 0 }}
-                whileHover={{ y: -32 }}
-                className="absolute flex flex-col items-center"
-              >
-                <span className="h-8 flex items-center text-black text-lg">N</span>
-                <span className="h-8 flex items-center text-black text-lg">T</span>
-              </motion.span>
+            <div className="relative w-8 h-8 flex items-center justify-center overflow-hidden rounded-md bg-primary">
+              <span className="text-white text-lg">N</span>
             </div>
-            <span>NADIA<span className="text-zinc-500">TARIQ</span></span>
+            <span>Nadia<span className="text-primary italic">Tariq</span></span>
           </motion.div>
 
           {/* Desktop Nav */}
@@ -187,15 +184,15 @@ export default function App() {
               >
                 {link.name}
                 <motion.span 
-                  className="absolute bottom-0 left-0 w-0 h-px bg-white transition-all duration-300 group-hover:w-full"
+                  className="absolute bottom-0 left-0 w-0 h-px bg-primary transition-all duration-300 group-hover:w-full"
                 />
               </a>
             ))}
             <motion.a 
-              href="#contact"
+              href="#hire-me"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-5 py-2 bg-white text-black text-sm font-bold rounded-full hover:bg-zinc-200 transition-colors"
+              className="px-5 py-2 bg-primary text-white text-sm font-bold rounded-full hover:bg-primary/90 transition-colors"
             >
               Hire Me
             </motion.a>
@@ -233,135 +230,129 @@ export default function App() {
 
       <main>
         {/* Hero Section */}
-        <section id="home" className="relative pt-32 pb-40 px-6 overflow-hidden">
-          {/* Subtle Grid Pattern Overlay */}
-          <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" 
-               style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+        <section id="home" className="relative pt-40 pb-32 px-6 overflow-hidden">
+          {/* Subtle Decorative Elements */}
+          <div className="absolute top-0 right-0 w-[50%] h-[100%] bg-zinc-900/10 -skew-x-12 transform origin-top-right pointer-events-none" />
           
           <div className="max-w-7xl mx-auto relative z-10">
-            <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
+            <div className="flex flex-col lg:flex-row gap-16 items-start">
               <motion.div 
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="flex-1 text-center lg:text-left"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="flex-[1.2]"
               >
                 <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 mb-10 transition-colors hover:border-primary/40 group"
+                  className="text-primary font-mono text-sm uppercase tracking-[0.4em] mb-6 flex items-center gap-4"
                 >
-                  <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
-                  <span className="text-[11px] uppercase tracking-[0.3em] font-black text-primary group-hover:text-emerald-400">Portfolio 2024 • Open for Projects</span>
+                  <span className="h-px w-10 bg-primary/40" /> Portfolio
                 </motion.div>
 
-                <h1 className="text-7xl md:text-[9vw] font-display font-black leading-[0.8] uppercase tracking-tighter mb-10 scale-y-110 origin-left">
-                  Developing <br />
-                  <span className="text-primary italic relative">
-                    Impact
-                    <svg className="absolute -bottom-2 left-0 w-full h-3 text-primary/20" viewBox="0 0 300 20">
-                      <path d="M0 10 Q75 0 150 10 T300 10" fill="none" stroke="currentColor" strokeWidth="4" />
-                    </svg>
-                  </span>
+                <h1 className="text-7xl md:text-[8vw] font-display font-medium leading-[0.95] mb-8 text-white tracking-tight">
+                  <span className="block">Hello!</span>
+                  <span className="block italic text-primary">I'm Nadia</span>
+                  <span className="block">Tariq.</span>
                 </h1>
 
-                <p className="text-xl md:text-2xl text-zinc-400 mb-12 max-w-2xl mx-auto lg:mx-0 leading-tight font-light tracking-tight">
-                  I'm <span className="text-white font-medium">Nadia Tariq</span>, a Full Stack Developer building scalable architectures and performance-obsessed digital interfaces.
+                <p className="text-xl md:text-2xl text-zinc-400 mb-12 max-w-xl leading-relaxed font-light">
+                  I'm a Full Stack Developer specializing in building high-performance architectures using <span className="text-white italic">JavaScript/TypeScript (Node.js, NestJS, Express.js), React.js, and PHP (Laravel).</span> Skilled in REST APIs, databases, and cloud platforms like AWS, Firebase, and Vercel, with a strong focus on clean and efficient code.
                 </p>
 
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-20">
+                <div className="flex flex-wrap items-center gap-6 mb-16">
                   <motion.a 
                     href="#projects" 
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-10 py-5 bg-primary text-black font-black rounded-full flex items-center gap-3 shadow-[0_20px_50px_rgba(16,185,129,0.2)] hover:shadow-[0_20px_60px_rgba(16,185,129,0.4)] transition-all"
+                    whileHover={{ x: 10 }}
+                    className="flex items-center gap-4 group"
                   >
-                    View My Work <ArrowRight size={20} />
+                    <span className="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white flex-shrink-0 group-hover:scale-110 transition-transform shadow-lg shadow-primary/20">
+                      <ArrowRight size={24} />
+                    </span>
+                    <div>
+                      <span className="block text-sm font-black uppercase tracking-widest text-white group-hover:text-primary transition-colors">View Projects</span>
+                      <span className="text-xs text-zinc-500">Case Studies & Experiments</span>
+                    </div>
                   </motion.a>
+                  
                   <motion.a 
                     href="/resume.pdf" 
                     download
-                    className="px-10 py-5 bg-white/5 border border-white/10 text-white font-bold rounded-full hover:bg-white/10 transition-all flex items-center gap-3"
+                    className="px-8 py-4 bg-zinc-900 border border-white/5 text-zinc-400 hover:text-white hover:border-white/20 transition-all rounded-full flex items-center gap-3 text-sm font-bold"
                   >
-                    Resume <Download size={18} />
+                    Download CV <Download size={16} />
                   </motion.a>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl">
-                  {['React', 'Node.js', 'TypeScript', 'NestJS'].map((skill, i) => (
-                    <div key={skill} className="px-6 py-3 rounded-2xl bg-zinc-900/50 border border-white/5 text-[10px] uppercase tracking-widest font-black text-zinc-500 hover:border-primary/20 hover:text-primary transition-all cursor-default text-center">
-                      {skill}
-                    </div>
-                  ))}
+                <div className="flex items-center gap-8 border-t border-white/5 pt-8">
+                  <div>
+                    <div className="text-3xl font-display italic text-white leading-none">3+</div>
+                    <div className="text-[10px] uppercase font-black tracking-widest text-zinc-500 mt-2">Years Exp.</div>
+                  </div>
+                  <div className="w-px h-10 bg-white/5" />
+                  <div>
+                    <div className="text-3xl font-display italic text-white leading-none">12+</div>
+                    <div className="text-[10px] uppercase font-black tracking-widest text-zinc-500 mt-2">Projects</div>
+                  </div>
+                  <div className="w-px h-10 bg-white/5" />
+                  <div className="flex -space-x-3">
+                    {['React', 'Node', 'PHP'].map((skill, i) => (
+                      <div key={skill} className="w-10 h-10 rounded-full bg-zinc-900 border-2 border-black flex items-center justify-center text-[10px] font-bold text-zinc-400 ring-2 ring-primary/20">
+                        {skill[0]}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
 
               <motion.div 
-                initial={{ opacity: 0, scale: 0.8, rotate: 10 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                transition={{ duration: 1, ease: "circOut" }}
-                className="relative group shrink-0"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, delay: 0.3 }}
+                className="flex-1 relative"
               >
-                <div className="w-[320px] h-[320px] md:w-[480px] md:h-[480px] relative">
-                  {/* Glowing Background */}
-                  <div className="absolute inset-0 bg-primary/20 blur-[120px] rounded-full animate-pulse" />
+                <div className="relative aspect-[4/5] md:aspect-[3/4] w-full max-w-lg mx-auto overflow-hidden rounded-[2.5rem] bg-zinc-900 border border-white/5 shadow-2xl">
+                  {/* Decorative Frame Overlays */}
+                  <div className="absolute inset-4 border border-white/5 rounded-[2rem] z-20 pointer-events-none" />
+                  <div className="absolute inset-[20px] border border-white/5 rounded-[1.8rem] z-10 pointer-events-none opacity-50" />
                   
-                  {/* Main Image Frame */}
-                  <div className="absolute inset-0 rounded-full overflow-hidden border-[12px] border-zinc-900 shadow-2xl relative z-10 transition-transform duration-700 group-hover:scale-[1.02]">
-                    <img 
-                      src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1000&auto=format&fit=crop" 
-                      alt="Nadia Tariq"
-                      className="w-full h-full object-cover grayscale brightness-90 hover:grayscale-0 transition-all duration-1000"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-20" />
-                  </div>
-
-                  {/* Circular Orbit Text (Optional decoration - simplified with CSS) */}
-                  <div className="absolute -inset-10 border border-white/5 rounded-full animate-[spin_30s_linear_infinite]" />
-                  <div className="absolute -inset-20 border border-white/5 rounded-full animate-[spin_40s_linear_infinite_reverse]" />
-
-                  {/* Experience Badge */}
-                  <motion.div 
-                    animate={{ y: [0, -15, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute -top-10 -right-6 md:top-10 md:-right-10 bg-zinc-900/90 backdrop-blur-2xl border border-primary/40 p-8 rounded-[3rem] shadow-2xl z-30 flex flex-col items-center justify-center min-w-[140px]"
-                  >
-                    <span className="text-5xl font-black text-primary leading-none">3+</span>
-                    <span className="text-[10px] text-zinc-400 font-black uppercase tracking-widest mt-2">Years of<br/>Mastery</span>
-                  </motion.div>
-
-                  {/* Skills Mini-Pill */}
-                  <motion.div 
-                    animate={{ x: [0, 15, 0] }}
-                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                    className="absolute bottom-10 -left-12 bg-zinc-900/90 backdrop-blur-2xl border border-white/10 px-6 py-4 rounded-full shadow-2xl z-30 flex items-center gap-3"
-                  >
-                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-black">
-                      <Code2 size={16} />
+                  <img 
+                    src="https://lh3.googleusercontent.com/d/1Q5GBsqBSpedXfQAY6dsYwyGmmHHeWARn" 
+                    alt="Nadia Tariq"
+                    className="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-1000 scale-105 hover:scale-100"
+                  />
+                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-20" />
+                  
+                  <div className="absolute bottom-10 left-10 right-10 z-30">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="px-3 py-1 bg-primary text-white text-[10px] font-black uppercase tracking-[0.2em] rounded">Full Stack Developer</div>
                     </div>
-                    <span className="text-xs font-black uppercase tracking-widest text-zinc-300">Software Engineer</span>
-                  </motion.div>
+                  </div>
                 </div>
+                
+                {/* Floating Geometric Elements */}
+                <div className="absolute -top-10 -right-10 w-24 h-24 bg-primary/10 rounded-full blur-3xl animate-pulse" />
+                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl animate-pulse delay-700" />
               </motion.div>
             </div>
-            
+          </div>
             {/* Social Links Ribbon */}
             <div className="mt-32 flex flex-wrap items-center justify-center lg:justify-start gap-12 border-t border-white/5 pt-10">
               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">Find me on</span>
               <div className="flex gap-8 items-center">
-                <a href="https://github.com/NadiaTariq66" className="text-zinc-500 hover:text-white hover:scale-110 transition-all flex items-center gap-2 group">
+                <a href="https://github.com/NadiaTariq66" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white hover:scale-110 transition-all flex items-center gap-2 group">
                   <Github size={20} /> <span className="text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity">GitHub</span>
                 </a>
-                <a href="https://linkedin.com/in/nadia-tariq" className="text-zinc-500 hover:text-white hover:scale-110 transition-all flex items-center gap-2 group">
+                <a href="https://www.linkedin.com/in/nadia-tariq/" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white hover:scale-110 transition-all flex items-center gap-2 group">
                   <Linkedin size={20} /> <span className="text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity">LinkedIn</span>
                 </a>
-                <a href="mailto:tariqnadia830@gmail.com" className="text-zinc-500 hover:text-white hover:scale-110 transition-all flex items-center gap-2 group">
+                <a href="https://mail.google.com/mail/u/0/?fs=1&to=tariqnadia830@gmail.com#inbox?compose=GTvVlcSBmXGGjhJqGMSBmMlTPRZsWccJxzTmDlpQrzMSTpPtHBVJflDvxkVwBsNtcpqdJKdZwqHph" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white hover:scale-110 transition-all flex items-center gap-2 group">
                   <Mail size={20} /> <span className="text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity">Email</span>
                 </a>
               </div>
             </div>
-          </div>
         </section>
 
         {/* Marquee Section */}
@@ -369,11 +360,11 @@ export default function App() {
           <motion.div 
             animate={{ x: [0, -1000] }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="flex whitespace-nowrap gap-12 text-6xl md:text-8xl font-black tracking-tighter opacity-10 select-none uppercase italic"
+            className="flex whitespace-nowrap gap-12 text-lg md:text-4xl font-black tracking-tighter opacity-10 select-none uppercase italic"
           >
-            {Array(5).fill("Full Stack Developer • React Expert • Node.js Backend • UI/UX Enthusiast •").map((text, i) => (
-              <span key={i}>{text}</span>
-            ))}
+            {Array(5).fill("Full Stack Developer • MERN Stack •").map((text, i) => (
+  <span key={i}>{text}</span>
+))}
           </motion.div>
         </div>
 
@@ -388,7 +379,13 @@ export default function App() {
                 </p>
                 <div className="space-y-6 text-zinc-400 leading-relaxed text-lg">
                   <p>
-                    I am a Full Stack Developer dedicated to building robust, high-performance web and mobile applications. My approach blends technical precision with a user-centric philosophy.
+                    I am a Full Stack Developer  with 3+ years of experience designing, developing, and deploying scalable web applications. Proficient in JavaScript/TypeScript technologies including Node.js (NestJS, Express.js) and React.js, along with PHP (Laravel). Skilled in building responsive frontend applications, RESTful APIs, and microservices-based architectures.
+
+Experienced in working with both SQL and NoSQL databases, including MongoDB, MySQL, and PostgreSQL, as well as modern backend platforms like Supabase for rapid and scalable development. Strong expertise in database design, optimization, and performance tuning.
+
+Hands-on experience with cloud platforms and deployment tools such as AWS, Heroku, Supabase,Vercel, and Firebase, including developing Firebase Cloud Functions for backend automation, real-time features, and serverless applications. Familiar with CI/CD pipelines, Git version control, and containerization fundamentals.
+
+Strong problem-solving skills with a focus on writing clean, maintainable, and scalable code. Passionate about learning new technologies, building efficient full stack solutions, and delivering high-quality applications in fast-paced environments.
                   </p>
                 </div>
               </div>
@@ -480,8 +477,8 @@ export default function App() {
         <section id="services" className="py-24 px-6 bg-black">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-20">
-              <h2 className="text-xs font-bold tracking-[0.3em] uppercase text-primary mb-4">/ Our Services</h2>
-              <h3 className="text-5xl md:text-6xl font-display uppercase tracking-tight">Specialized Solutions</h3>
+              <h2 className="text-xs font-bold tracking-[0.3em] uppercase text-primary mb-4">/ My Services</h2>
+              <h3 className="text-5xl md:text-6xl font-display uppercase tracking-tight">What I Do Best</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <ServiceCard 
@@ -670,67 +667,77 @@ export default function App() {
           </div>
         </section>
 
-        {/* Contact Section */}
-        <section id="contact" className="py-40 px-6 bg-[#000000] border-t border-white/5 relative overflow-hidden">
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-white/[0.01] to-transparent pointer-events-none" />
-          
-          <div className="max-w-7xl mx-auto text-center relative z-10">
-            <motion.h2 
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              className="text-[10px] font-black tracking-[0.5em] uppercase text-zinc-600 mb-12"
-            >
-              / Collaboration
-            </motion.h2>
-            <motion.h3 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              className="text-6xl md:text-[10vw] font-display leading-[0.8] mb-16 uppercase text-white"
-            >
-              Let's build <br /> something <span className="text-zinc-800 italic">bold</span>
-            </motion.h3>
-            
-            <div className="flex flex-col lg:flex-row items-center justify-center gap-12 mb-20">
-              <motion.a 
-                whileHover={{ y: -5, scale: 1.02 }}
-                href="mailto:tariqnadia830@gmail.com" 
-                className="group flex flex-col items-center gap-4 text-zinc-400 hover:text-white transition-all w-full md:w-auto"
-              >
-                <div className="w-20 h-20 bg-white/5 rounded-[2rem] flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all border border-white/10 shadow-xl group-hover:shadow-white/10">
-                  <Mail size={28} />
-                </div>
-                <span className="text-xl font-medium tracking-tight">tariqnadia830@gmail.com</span>
-              </motion.a>
+        {/* Hire Me Section (Inspired by MZ Portfolio) */}
+        <section id="hire-me" className="py-24 px-6 bg-[#0a0a0a]">
+          <div className="max-w-7xl mx-auto">
+            {/* Header Area */}
+            <div className="rounded-[3rem] bg-[#4d1a1a] py-20 px-8 text-center text-white relative overflow-hidden mb-24">
+              <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay" />
               
-              <div className="hidden lg:block w-px h-24 bg-white/5" />
-
-              <motion.a 
-                whileHover={{ y: -5, scale: 1.02 }}
-                href="tel:+923040494573" 
-                className="group flex flex-col items-center gap-4 text-zinc-400 hover:text-white transition-all w-full md:w-auto"
+              <motion.h2 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                className="text-5xl md:text-7xl font-display font-medium mb-6 tracking-tight"
               >
-                <div className="w-20 h-20 bg-white/5 rounded-[2rem] flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all border border-white/10 shadow-xl group-hover:shadow-white/10">
-                  <Phone size={28} />
-                </div>
-                <span className="text-xl font-medium tracking-tight">+92 3040494573</span>
+                Let's Work Together
+              </motion.h2>
+              
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="text-xl md:text-2xl text-red-100/70 max-w-2xl mx-auto mb-12 font-light leading-relaxed"
+              >
+                Ready to bring your ideas to life? Let's discuss your project and create something amazing together.
+              </motion.p>
+
+              {/* Badges */}
+              <div className="flex flex-wrap justify-center gap-4 mb-12">
+                <Badge icon={<CheckCircle2 size={14} />} text="3+ Years Experience" />
+                <Badge icon={<CheckCircle2 size={14} />} text="95% Client Satisfaction" />
+                <Badge icon={<Clock size={14} />} text="Fast Response Time" />
+              </div>
+
+              {/* WhatsApp CTA */}
+              <motion.a 
+                href="https://wa.me/923040494573"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center gap-3 px-10 py-5 bg-[#fab005] hover:bg-[#fcc419] text-[#1a1a1a] font-black text-lg rounded-2xl transition-all shadow-xl shadow-black/20"
+              >
+                <MessageCircle size={24} />
+                Chat on WhatsApp
               </motion.a>
             </div>
-            
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              className="relative inline-block group"
-            >
-              <div className="absolute -inset-1 bg-gradient-to-r from-zinc-800 to-zinc-500 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200" />
-              <motion.button 
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="relative px-16 py-8 bg-white text-black font-black text-2xl rounded-full tracking-tighter shadow-2xl hover:scale-105 transition-transform"
-              >
-                BOOK A DISCOVERY CALL
-              </motion.button>
-            </motion.div>
+
+            {/* Availability Selection */}
+            <div className="text-center mb-16">
+              <h3 className="text-4xl md:text-5xl font-display font-medium text-white mb-4 italic">My Availability</h3>
+              <p className="text-zinc-500 uppercase tracking-[0.2em] text-xs font-black">Flexible working hours to accommodate your schedule and project requirements</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <AvailabilityCard 
+                title="Monday - Friday"
+                time="9:00 AM - 6:00 PM"
+                status="Available"
+                icon={<Check size={24} />}
+              />
+              <AvailabilityCard 
+                title="Saturday"
+                time="10:00 AM - 4:00 PM"
+                status="Available"
+                icon={<Check size={24} />}
+              />
+              <AvailabilityCard 
+                title="Sunday"
+                time="By Appointment"
+                status="Limited"
+                icon={<Calendar size={24} />}
+              />
+            </div>
           </div>
         </section>
       </main>
@@ -741,9 +748,9 @@ export default function App() {
             © 2026 NADIA TARIQ. ALL RIGHTS RESERVED.
           </div>
           <div className="flex gap-8 text-zinc-500 text-xs font-bold uppercase tracking-widest">
-             <a href="https://github.com/NadiaTariq66" className="hover:text-white">Github</a>
-             <a href="https://linkedin.com/in/nadia-tariq" className="hover:text-white">Linkedin</a>
-             <a href="#" className="hover:text-white">Twitter</a>
+             <a href="https://github.com/NadiaTariq66" target="_blank" rel="noopener noreferrer" className="hover:text-white">Github</a>
+             <a href="https://www.linkedin.com/in/nadia-tariq/" target="_blank" rel="noopener noreferrer" className="hover:text-white">Linkedin</a>
+             <a href="https://mail.google.com/mail/u/0/?fs=1&to=tariqnadia830@gmail.com#inbox?compose=GTvVlcSBmXGGjhJqGMSBmMlTPRZsWccJxzTmDlpQrzMSTpPtHBVJflDvxkVwBsNtcpqdJKdZwqHph" target="_blank" rel="noopener noreferrer" className="hover:text-white">Email</a>
           </div>
         </div>
       </footer>
@@ -823,5 +830,35 @@ function BlogCard({ date, title, category }: { date: string, title: string, cate
         Read Article <ChevronRight size={16} />
       </div>
     </div>
+  );
+}
+
+function Badge({ icon, text }: { icon: ReactNode, text: string }) {
+  return (
+    <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-xs font-medium border border-white/10">
+      <span className="text-primary">{icon}</span>
+      <span>{text}</span>
+    </div>
+  );
+}
+
+function AvailabilityCard({ title, time, status, icon }: { title: string, time: string, status: string, icon: ReactNode }) {
+  const isAvailable = status === "Available";
+  return (
+    <motion.div 
+      whileHover={{ y: -10 }}
+      className="p-10 rounded-[3rem] bg-zinc-900/20 border border-white/5 hover:bg-zinc-900/40 transition-all text-center group"
+    >
+      <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-8 bg-white/5 text-zinc-400 group-hover:text-white transition-colors border border-white/10`}>
+        {icon}
+      </div>
+      <h4 className="text-2xl font-bold text-white mb-2">{title}</h4>
+      <p className="text-zinc-500 text-sm mb-6 font-medium">{time}</p>
+      <div className={`inline-flex items-center gap-2 px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest ${
+        isAvailable ? 'bg-primary/10 text-primary' : 'bg-amber-500/10 text-amber-500'
+      }`}>
+        {status}
+      </div>
+    </motion.div>
   );
 }
