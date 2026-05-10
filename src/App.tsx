@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { motion, useScroll, useSpring } from "motion/react";
+import { motion, useScroll, useSpring, useMotionValue, useMotionTemplate } from "motion/react";
 import { 
   Github, 
   Linkedin, 
@@ -125,34 +125,36 @@ export default function App() {
     restDelta: 0.001
   });
 
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const spotlightX = useSpring(mouseX, { stiffness: 100, damping: 30 });
+  const spotlightY = useSpring(mouseY, { stiffness: 100, damping: 30 });
+  const spotlightBackground = useMotionTemplate`radial-gradient(400px at ${spotlightX}px ${spotlightY}px, rgba(209, 38, 58, 0.15), transparent 80%)`;
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  }, [mouseX, mouseY]);
 
   return (
     <div className="min-h-screen bg-[#000000] text-zinc-100 font-sans selection:bg-white selection:text-black relative overflow-hidden">
       {/* Dynamic Cursor Spotlight */}
-      <div 
-        className="fixed inset-0 z-0 pointer-events-none opacity-40 transition-opacity duration-300"
-        style={{
-          background: `radial-gradient(600px at ${mousePosition.x}px ${mousePosition.y}px, rgba(209, 38, 58, 0.1), transparent 80%)`
-        }}
+      <motion.div 
+        className="fixed inset-0 z-0 pointer-events-none opacity-40"
+        style={{ background: spotlightBackground }}
       />
       
       {/* Background Texture & Aura */}
       <div className="fixed inset-0 pointer-events-none opacity-30 z-0">
-        <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-primary/5 blur-[150px] rounded-full animate-pulse" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[70%] h-[70%] bg-primary/5 blur-[150px] rounded-full animate-pulse delay-1000" />
+        <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-primary/5 blur-[150px] rounded-full" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[70%] h-[70%] bg-primary/5 blur-[150px] rounded-full" />
       </div>
       
-      {/* Animated Grain Overlay */}
-      <div className="fixed inset-0 pointer-events-none z-[100] mix-blend-overlay opacity-30 grayscale contrast-100 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      {/* Animated Grain Overlay Removed for performance */}
 
       {/* Scroll Progress Bar */}
       <motion.div 
