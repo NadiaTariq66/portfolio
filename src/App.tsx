@@ -16,15 +16,12 @@ import {
   Database, 
   Terminal, 
   Cpu,
-  ChevronRight,
   ArrowRight,
   Menu,
   X,
   MessageCircle,
   CheckCircle2,
-  Clock,
-  Calendar,
-  Check
+  Clock
 } from "lucide-react";
 import { useState, useEffect, ReactNode } from "react";
 
@@ -47,10 +44,11 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
   visible: {
     opacity: 1,
     y: 0,
+    scale: 1,
     transition: {
       duration: 0.5,
       ease: "easeOut",
@@ -120,16 +118,15 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
+    stiffness: 200,
     damping: 30,
     restDelta: 0.001
   });
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const spotlightX = useSpring(mouseX, { stiffness: 100, damping: 30 });
-  const spotlightY = useSpring(mouseY, { stiffness: 100, damping: 30 });
-  const spotlightBackground = useMotionTemplate`radial-gradient(400px at ${spotlightX}px ${spotlightY}px, rgba(209, 38, 58, 0.15), transparent 80%)`;
+  const spotlightX = useSpring(mouseX, { stiffness: 400, damping: 40 });
+  const spotlightY = useSpring(mouseY, { stiffness: 400, damping: 40 });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -142,16 +139,16 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#000000] text-zinc-100 font-sans selection:bg-white selection:text-black relative overflow-hidden">
-      {/* Dynamic Cursor Spotlight */}
+      {/* Dynamic Cursor Spotlight - Optimized */}
       <motion.div 
-        className="fixed inset-0 z-0 pointer-events-none opacity-40"
-        style={{ background: spotlightBackground }}
+        className="fixed top-0 left-0 w-[300px] h-[300px] rounded-full bg-primary/10 blur-[60px] pointer-events-none z-0 -translate-x-1/2 -translate-y-1/2 will-change-transform"
+        style={{ x: spotlightX, y: spotlightY }}
       />
       
       {/* Background Texture & Aura */}
-      <div className="fixed inset-0 pointer-events-none opacity-30 z-0">
-        <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-primary/5 blur-[150px] rounded-full" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[70%] h-[70%] bg-primary/5 blur-[150px] rounded-full" />
+      <div className="fixed inset-0 pointer-events-none opacity-10 z-0">
+        <div className="absolute top-[10%] left-[-10%] w-[30%] h-[30%] bg-primary/5 blur-[80px] rounded-full" />
+        <div className="absolute bottom-[10%] right-[-10%] w-[30%] h-[30%] bg-primary/5 blur-[80px] rounded-full" />
       </div>
       
       {/* Animated Grain Overlay Removed for performance */}
@@ -163,7 +160,7 @@ export default function App() {
       />
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-[90] bg-black/80 backdrop-blur-xl border-b border-white/5">
+      <nav className="fixed top-0 w-full z-[90] bg-black/95 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
@@ -186,7 +183,7 @@ export default function App() {
               >
                 {link.name}
                 <motion.span 
-                  className="absolute bottom-0 left-0 w-0 h-px bg-primary transition-all duration-300 group-hover:w-full"
+                  className="absolute bottom-0 left-0 w-0 h-px bg-primary transition-[width] duration-300 group-hover:w-full"
                 />
               </a>
             ))}
@@ -237,41 +234,55 @@ export default function App() {
           <div className="absolute top-0 right-0 w-[50%] h-[100%] bg-zinc-900/10 -skew-x-12 transform origin-top-right pointer-events-none" />
           
           <div className="max-w-7xl mx-auto relative z-10">
-            <div className="flex flex-col lg:flex-row gap-16 items-start">
+            <motion.div 
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="flex flex-col lg:flex-row gap-16 items-start"
+            >
               <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
+                variants={itemVariants}
                 className="flex-[1.2]"
               >
-                <motion.div 
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 }}
+                <div 
                   className="text-primary font-mono text-sm uppercase tracking-[0.4em] mb-6 flex items-center gap-4"
                 >
                   <span className="h-px w-10 bg-primary/40" /> Portfolio
-                </motion.div>
+                </div>
 
-                <h1 className="text-7xl md:text-[8vw] font-display font-medium leading-[0.95] mb-8 text-white tracking-tight">
+                <motion.h1 
+                  variants={itemVariants}
+                  className="text-7xl md:text-[8vw] font-display font-medium leading-[0.95] mb-8 text-white tracking-tight"
+                >
                   <span className="block">Hello!</span>
                   <span className="block italic text-primary">I'm Nadia</span>
                   <span className="block">Tariq.</span>
-                </h1>
+                </motion.h1>
 
-                <p className="text-xl md:text-2xl text-zinc-400 mb-12 max-w-xl leading-relaxed font-light">
+                <motion.p 
+                  variants={itemVariants}
+                  className="text-xl md:text-2xl text-zinc-400 mb-12 max-w-xl leading-relaxed font-light"
+                >
                   I'm a Full Stack Developer specializing in building high-performance architectures using <span className="text-white italic">JavaScript/TypeScript (Node.js, NestJS, Express.js), React.js, and PHP (Laravel).</span> Skilled in REST APIs, databases, and cloud platforms like AWS, Firebase, and Vercel, with a strong focus on clean and efficient code.
-                </p>
+                </motion.p>
 
-                <div className="flex flex-wrap items-center gap-6 mb-16">
+                <motion.div 
+                  variants={itemVariants}
+                  className="flex flex-wrap items-center gap-6 mb-16"
+                >
                   <motion.a 
                     href="#projects" 
                     whileHover={{ x: 10 }}
+                    whileTap={{ scale: 0.95 }}
                     className="flex items-center gap-4 group"
                   >
-                    <span className="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white flex-shrink-0 group-hover:scale-110 transition-transform shadow-lg shadow-primary/20">
+                    <motion.span 
+                      animate={{ scale: [1, 1.1, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white flex-shrink-0 shadow-lg shadow-primary/20"
+                    >
                       <ArrowRight size={24} />
-                    </span>
+                    </motion.span>
                     <div>
                       <span className="block text-sm font-black uppercase tracking-widest text-white group-hover:text-primary transition-colors">View Projects</span>
                       <span className="text-xs text-zinc-500">Case Studies & Experiments</span>
@@ -282,37 +293,62 @@ export default function App() {
                     href="https://drive.google.com/file/d/1LC1U7rAsxGUox54sAYvnJCtkZhPdV2n9/view?usp=drive_link" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-8 py-4 bg-zinc-900 border border-white/5 text-zinc-400 hover:text-white hover:border-white/20 transition-all rounded-full flex items-center gap-3 text-sm font-bold"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-8 py-4 bg-zinc-900 border border-white/5 text-zinc-400 hover:text-white hover:border-white/20 transition-colors rounded-full flex items-center gap-3 text-sm font-bold"
                   >
                     Download CV <Download size={16} />
                   </motion.a>
-                </div>
+                </motion.div>
 
-                <div className="flex items-center gap-8 border-t border-white/5 pt-8">
+                <motion.div 
+                  variants={itemVariants}
+                  className="flex items-center gap-8 border-t border-white/5 pt-8"
+                >
                   <div>
-                    <div className="text-3xl font-display italic text-white leading-none">3+</div>
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      className="text-3xl font-display italic text-white leading-none"
+                    >
+                      3+
+                    </motion.div>
                     <div className="text-[10px] uppercase font-black tracking-widest text-zinc-500 mt-2">Years Exp.</div>
                   </div>
                   <div className="w-px h-10 bg-white/5" />
                   <div>
-                    <div className="text-3xl font-display italic text-white leading-none">12+</div>
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.1 }}
+                      className="text-3xl font-display italic text-white leading-none"
+                    >
+                      12+
+                    </motion.div>
                     <div className="text-[10px] uppercase font-black tracking-widest text-zinc-500 mt-2">Projects</div>
                   </div>
                   <div className="w-px h-10 bg-white/5" />
                   <div className="flex -space-x-3">
                     {['React', 'Node', 'PHP'].map((skill, i) => (
-                      <div key={skill} className="w-10 h-10 rounded-full bg-zinc-900 border-2 border-black flex items-center justify-center text-[10px] font-bold text-zinc-400 ring-2 ring-primary/20">
+                      <motion.div 
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.2 + (i * 0.1) }}
+                        key={skill} 
+                        className="w-10 h-10 rounded-full bg-zinc-900 border-2 border-black flex items-center justify-center text-[10px] font-bold text-zinc-400 ring-2 ring-primary/20"
+                      >
                         {skill[0]}
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
 
               <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1, delay: 0.3 }}
+                variants={itemVariants}
                 className="flex-1 relative"
               >
                 <div className="relative aspect-[4/5] md:aspect-[3/4] w-full max-w-lg mx-auto overflow-hidden rounded-[2.5rem] bg-zinc-900 border border-white/5 shadow-2xl">
@@ -320,38 +356,55 @@ export default function App() {
                   <div className="absolute inset-4 border border-white/5 rounded-[2rem] z-20 pointer-events-none" />
                   <div className="absolute inset-[20px] border border-white/5 rounded-[1.8rem] z-10 pointer-events-none opacity-50" />
                   
-                  <img 
-                    src="https://lh3.googleusercontent.com/d/1Q5GBsqBSpedXfQAY6dsYwyGmmHHeWARn" 
+                  <motion.img 
+                    loading="lazy"
+                    decoding="async"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    src="https://drive.google.com/thumbnail?id=1Q5GBsqBSpedXfQAY6dsYwyGmmHHeWARn&sz=w1000" 
                     alt="Nadia Tariq"
-                    className="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-1000 scale-105 hover:scale-100"
+                    className="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-opacity duration-700 hover:scale-100"
                   />
                   
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-20" />
                   
                   <div className="absolute bottom-10 left-10 right-10 z-30">
-                    <div className="flex items-center gap-4 mb-4">
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.8 }}
+                      className="flex items-center gap-4 mb-4"
+                    >
                       <div className="px-3 py-1 bg-primary text-white text-[10px] font-black uppercase tracking-[0.2em] rounded">Full Stack Developer</div>
-                    </div>
+                    </motion.div>
                   </div>
                 </div>
                 
-                {/* Floating Geometric Elements */}
-                <div className="absolute -top-10 -right-10 w-24 h-24 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl animate-pulse delay-700" />
+                {/* Floating Geometric Elements - Enhanced */}
+                <motion.div 
+                  animate={{ y: [0, -15, 0], opacity: [0.1, 0.2, 0.1] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute -top-10 -right-10 w-24 h-24 bg-primary/20 rounded-full blur-3xl pointer-events-none" 
+                />
+                <motion.div 
+                  animate={{ y: [0, 20, 0], opacity: [0.15, 0.3, 0.15] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  className="absolute -bottom-10 -left-10 w-32 h-32 bg-primary/25 rounded-full blur-3xl pointer-events-none" 
+                />
               </motion.div>
-            </div>
+            </motion.div>
           </div>
             {/* Social Links Ribbon */}
             <div className="mt-32 flex flex-wrap items-center justify-center lg:justify-start gap-12 border-t border-white/5 pt-10">
               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">Find me on</span>
               <div className="flex gap-8 items-center">
-                <a href="https://github.com/NadiaTariq66" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white hover:scale-110 transition-all flex items-center gap-2 group">
+                <a href="https://github.com/NadiaTariq66" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white hover:scale-110 transition-[color,transform] flex items-center gap-2 group">
                   <Github size={20} /> <span className="text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity">GitHub</span>
                 </a>
-                <a href="https://www.linkedin.com/in/nadia-tariq/" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white hover:scale-110 transition-all flex items-center gap-2 group">
+                <a href="https://www.linkedin.com/in/nadia-tariq/" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white hover:scale-110 transition-[color,transform] flex items-center gap-2 group">
                   <Linkedin size={20} /> <span className="text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity">LinkedIn</span>
                 </a>
-                <a href="https://mail.google.com/mail/u/0/?fs=1&to=tariqnadia830@gmail.com#inbox?compose=GTvVlcSBmXGGjhJqGMSBmMlTPRZsWccJxzTmDlpQrzMSTpPtHBVJflDvxkVwBsNtcpqdJKdZwqHph" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white hover:scale-110 transition-all flex items-center gap-2 group">
+                <a href="https://mail.google.com/mail/u/0/?fs=1&to=tariqnadia830@gmail.com#inbox?compose=GTvVlcSBmXGGjhJqGMSBmMlTPRZsWccJxzTmDlpQrzMSTpPtHBVJflDvxkVwBsNtcpqdJKdZwqHph" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white hover:scale-110 transition-[color,transform] flex items-center gap-2 group">
                   <Mail size={20} /> <span className="text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity">Email</span>
                 </a>
               </div>
@@ -362,8 +415,8 @@ export default function App() {
         <div className="py-12 border-y border-white/5 overflow-hidden bg-black relative flex items-center">
           <motion.div 
             animate={{ x: [0, -1000] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="flex whitespace-nowrap gap-12 text-lg md:text-4xl font-black tracking-tighter opacity-10 select-none uppercase italic"
+            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            className="flex whitespace-nowrap gap-12 text-lg md:text-4xl font-black tracking-tighter opacity-5 select-none uppercase italic will-change-transform"
           >
             {Array(5).fill("Full Stack Developer • MERN Stack •").map((text, i) => (
   <span key={i}>{text}</span>
@@ -392,7 +445,7 @@ Strong problem-solving skills with a focus on writing clean, maintainable, and s
                   </p>
                 </div>
               </div>
-              <div className="relative group p-8 bg-zinc-900/50 rounded-[3rem] border border-white/5 hover:border-primary/20 transition-all duration-500">
+              <div className="relative group p-8 bg-zinc-900/50 rounded-[3rem] border border-white/5 hover:border-primary/20 transition-colors duration-500">
                 <div className="space-y-8">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
@@ -445,7 +498,7 @@ Strong problem-solving skills with a focus on writing clean, maintainable, and s
                 <motion.div 
                   key={category}
                   variants={itemVariants}
-                  className="group relative p-8 rounded-[2.5rem] bg-zinc-900/40 border border-white/5 hover:border-primary/30 transition-all duration-700 overflow-hidden"
+                  className="group relative p-8 rounded-[2.5rem] bg-zinc-900/40 border border-white/5 hover:border-primary/30 transition-[border-color,background-color] duration-700 overflow-hidden"
                 >
                   <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-20 transition-opacity">
                     {category === "Backend" && <Terminal size={80} />}
@@ -483,7 +536,12 @@ Strong problem-solving skills with a focus on writing clean, maintainable, and s
               <h2 className="text-xs font-bold tracking-[0.3em] uppercase text-primary mb-4">/ My Services</h2>
               <h3 className="text-5xl md:text-6xl font-display uppercase tracking-tight">What I Do Best</h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+    >
               <ServiceCard 
                 icon={<Code2 size={24} />}
                 title="Full Stack Web Dev"
@@ -514,7 +572,7 @@ Strong problem-solving skills with a focus on writing clean, maintainable, and s
                 title="E-commerce Solutions"
                 description="Custom online stores with secure payment gateways."
               />
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -592,8 +650,9 @@ Strong problem-solving skills with a focus on writing clean, maintainable, and s
                   className="group"
                 >
                   <motion.div 
-                    whileHover={{ y: -10 }}
-                    className="bg-zinc-900 border border-white/5 p-8 rounded-3xl h-full flex flex-col hover:border-white/20 transition-all duration-500 relative overflow-hidden"
+                    whileHover={{ y: -15, scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className="bg-zinc-900 border border-white/5 p-8 rounded-3xl h-full flex flex-col hover:border-white/20 transition-colors duration-500 relative overflow-hidden"
                   >
                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/[0.02] blur-2xl rounded-full -mr-10 -mt-10 group-hover:bg-white/[0.05] transition-colors" />
                     
@@ -639,43 +698,12 @@ Strong problem-solving skills with a focus on writing clean, maintainable, and s
           </div>
         </section>
 
-        {/* Blog Section */}
-        <section className="py-24 px-6 bg-[#0a0a0a]">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex justify-between items-end mb-16">
-              <div>
-                <h2 className="text-xs font-bold tracking-[0.3em] uppercase text-primary mb-4">/ Blog & Insights</h2>
-                <h3 className="text-5xl font-display uppercase">Latest Thinking</h3>
-              </div>
-              <motion.button 
-                whileHover={{ x: 5 }}
-                className="hidden md:flex items-center gap-2 text-primary font-bold text-sm tracking-widest uppercase border-b border-primary/20 pb-1"
-              >
-                View All Posts <ChevronRight size={16} />
-              </motion.button>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <BlogCard 
-                date="May 12, 2024"
-                title="Scaling NestJS Backends with Redis"
-                category="Technical"
-              />
-              <BlogCard 
-                date="Apr 28, 2024"
-                title="Mastering Framer Motion for Modern UI"
-                category="Frontend"
-              />
-            </div>
-          </div>
-        </section>
-
         {/* Hire Me Section (Inspired by MZ Portfolio) */}
         <section id="hire-me" className="py-24 px-6 bg-[#0a0a0a]">
           <div className="max-w-7xl mx-auto">
             {/* Header Area */}
             <div className="rounded-[3rem] bg-[#4d1a1a] py-20 px-8 text-center text-white relative overflow-hidden mb-24">
-              <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay" />
+              <div className="absolute inset-0 bg-black/10 pointer-events-none" />
               
               <motion.h2 
                 initial={{ opacity: 0, y: 20 }}
@@ -715,32 +743,6 @@ Strong problem-solving skills with a focus on writing clean, maintainable, and s
               </motion.a>
             </div>
 
-            {/* Availability Selection */}
-            <div className="text-center mb-16">
-              <h3 className="text-4xl md:text-5xl font-display font-medium text-white mb-4 italic">My Availability</h3>
-              <p className="text-zinc-500 uppercase tracking-[0.2em] text-xs font-black">Flexible working hours to accommodate your schedule and project requirements</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <AvailabilityCard 
-                title="Monday - Friday"
-                time="9:00 AM - 6:00 PM"
-                status="Available"
-                icon={<Check size={24} />}
-              />
-              <AvailabilityCard 
-                title="Saturday"
-                time="10:00 AM - 4:00 PM"
-                status="Available"
-                icon={<Check size={24} />}
-              />
-              <AvailabilityCard 
-                title="Sunday"
-                time="By Appointment"
-                status="Limited"
-                icon={<Calendar size={24} />}
-              />
-            </div>
           </div>
         </section>
       </main>
@@ -792,8 +794,14 @@ function ExperienceItem({ company, role, date, bullets }: { company: string, rol
 
 function AchievementCard({ count, label, description }: { count: string, label: string, description: string }) {
   return (
-    <div className="p-12 rounded-[3rem] bg-zinc-900/20 border border-white/5 hover:border-primary/20 transition-all duration-700 group relative overflow-hidden">
-      <div className="absolute -top-12 -right-12 w-40 h-40 bg-primary/5 blur-[80px] rounded-full group-hover:bg-primary/20 transition-all duration-700" />
+    <motion.div 
+      whileHover={{ scale: 1.02, y: -5 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="p-12 rounded-[3rem] bg-zinc-900/20 border border-white/5 hover:border-primary/20 transition-all duration-700 group relative overflow-hidden"
+    >
+      <div className="absolute -top-12 -right-12 w-40 h-40 bg-primary/5 blur-[40px] rounded-full group-hover:bg-primary/20 transition-all duration-700" />
       <div className="flex items-end gap-2 mb-6">
         <div className="text-7xl font-display font-black text-white tracking-tighter group-hover:text-primary transition-colors">{count}</div>
       </div>
@@ -805,63 +813,31 @@ function AchievementCard({ count, label, description }: { count: string, label: 
           Verified Impact <div className="h-px flex-1 bg-primary/20" />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 function ServiceCard({ icon, title, description }: { icon: ReactNode, title: string, description: string }) {
   return (
-    <div className="p-8 rounded-[2rem] bg-zinc-900/30 border border-white/5 hover:border-primary/20 transition-all duration-500 group">
-      <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-zinc-400 group-hover:bg-primary group-hover:text-black transition-all mb-6">
+    <motion.div 
+      whileHover={{ y: -8, scale: 1.01 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+      className="p-8 rounded-[2rem] bg-zinc-900/30 border border-white/5 hover:border-primary/20 transition-colors duration-500 group"
+    >
+      <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-zinc-400 group-hover:bg-primary group-hover:text-black transition-[background-color,color] mb-6">
         {icon}
       </div>
       <h4 className="text-xl font-bold mb-3 text-white">{title}</h4>
       <p className="text-zinc-500 text-sm leading-relaxed">{description}</p>
-    </div>
-  );
-}
-
-function BlogCard({ date, title, category }: { date: string, title: string, category: string }) {
-  return (
-    <div className="group p-10 rounded-[2.5rem] bg-zinc-900/20 border border-white/5 hover:border-primary/20 transition-all duration-700 cursor-pointer">
-      <div className="flex items-center gap-3 mb-6">
-        <span className="text-[10px] font-black uppercase tracking-widest px-3 py-1 bg-primary/10 text-primary rounded-full">{category}</span>
-        <span className="text-sm text-zinc-600 font-medium">{date}</span>
-      </div>
-      <h4 className="text-3xl font-bold tracking-tight mb-8 group-hover:text-white transition-colors">{title}</h4>
-      <div className="flex items-center gap-2 text-zinc-400 group-hover:text-primary transition-colors font-bold text-sm uppercase tracking-widest">
-        Read Article <ChevronRight size={16} />
-      </div>
-    </div>
+    </motion.div>
   );
 }
 
 function Badge({ icon, text }: { icon: ReactNode, text: string }) {
   return (
-    <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-xs font-medium border border-white/10">
+    <div className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full text-xs font-medium border border-white/10">
       <span className="text-primary">{icon}</span>
       <span>{text}</span>
     </div>
-  );
-}
-
-function AvailabilityCard({ title, time, status, icon }: { title: string, time: string, status: string, icon: ReactNode }) {
-  const isAvailable = status === "Available";
-  return (
-    <motion.div 
-      whileHover={{ y: -10 }}
-      className="p-10 rounded-[3rem] bg-zinc-900/20 border border-white/5 hover:bg-zinc-900/40 transition-all text-center group"
-    >
-      <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-8 bg-white/5 text-zinc-400 group-hover:text-white transition-colors border border-white/10`}>
-        {icon}
-      </div>
-      <h4 className="text-2xl font-bold text-white mb-2">{title}</h4>
-      <p className="text-zinc-500 text-sm mb-6 font-medium">{time}</p>
-      <div className={`inline-flex items-center gap-2 px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest ${
-        isAvailable ? 'bg-primary/10 text-primary' : 'bg-amber-500/10 text-amber-500'
-      }`}>
-        {status}
-      </div>
-    </motion.div>
   );
 }
